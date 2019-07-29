@@ -1,27 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const Storage = require('node-storage');
-const uuidv4 = require('uuid/v4');
 
-const store = new Storage('./data/tasks.json');
+const { getTasks, addTask, updateTask, removeTask } = require('./taskService');
+
 
 const port = 3000;
-
-
-const getTasks = () => store.get('tasks') || [];
-
-const generateId = () => uuidv4();
-
-const addTask = ({ title }) => {
-  const tasks = getTasks();
-  tasks.push({
-    id: generateId(),
-    title,
-    status: 'todo',
-  });
-  store.put('tasks', tasks);
-};
 
 const app = express();
 
@@ -35,13 +19,19 @@ app.get('/tasks', (req, res) => {
 });
 
 app.post('/tasks', (req, res) => {
-  const { task } = req.body;
-  addTask(task);
+  const { title } = req.body;
+  addTask(title);
   res.send({});
 });
 
 app.patch('/tasks/:id', (req, res) => {
-  // deleteTask(req.params.id);
+  const payload = req.body;
+  updateTask(req.params.id, payload);
+  res.send({});
+});
+
+app.delete('/tasks/:id', (req, res) => {
+  removeTask(req.params.id);
   res.send({});
 });
 

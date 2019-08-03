@@ -37,9 +37,20 @@ describe('users', () => {
 
     it('responds with 200 if valid uuid is passed', async () => {
       const response = await request(app)
-        .get(`/v1/users/${user.uuid}`);
+        .get(`/v1/users/${user.uuid}`)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200);
 
       expect(response.body.email).toBe(user.email);
+    });
+
+    it('responds with 404 if invalid uuid is passed', async () => {
+      const response = await request(app)
+        .get(`/v1/users/${uuid()}`)
+        .send('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(404);
     });
 
   });

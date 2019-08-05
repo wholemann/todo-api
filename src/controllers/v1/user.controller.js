@@ -1,30 +1,30 @@
 import httpStatus from 'http-status';
 import createError from 'http-errors';
-import { models } from '../../models';
+import userRepo from '../../repositories/user.repository';
 
   const get = async (req, res, next) => {
   try {
     if(req.params.uuid) {
-      const user = await models.User.findOne({
-        where: {
-          uuid: Buffer.from(req.params.uuid, 'hex'),
-        },
-      });
+      const user = await userRepo.findOne(req.params.uuid);
 
       if (!user) {
         throw (createError(httpStatus.NOT_FOUND, '사용자를 찾을 수 없습니다.'));
       }
- 
-      return res
-        .status(httpStatus.OK)
-        .json(user);
+
+      delete user.dataValues.id;
+      res.json(user);
+
+      // return res
+      //   .status(httpStatus.OK)
+      //   .json(user.toWeb());
     } else {
-      const users = await models.User.findAll();
+      const users = await userRepo.findAll();
 
       return res
         .json(users);
+      // return res
+      //   .json(users.map(user => user.toWeb()));
     }
-
   } catch (e) {
     next(e);
   }

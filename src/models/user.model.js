@@ -38,5 +38,12 @@ module.exports = (sequelize, DataTypes) => {
 
   // hooks
 
+  // returnForExternal
+  User.prototype.toWeb = function () {
+    const values = Object.assign({}, this);
+    
+    return values;
+  }
+
   return User;
 }

@@ -1,7 +1,7 @@
 import request from 'supertest';
 import randomString from 'random-string';
 import { uuid } from '../../../utils/uuid';
-import { models } from '../../../models';
+import models from '../../../models';
 import app from '../../../index';
 
 let user;
@@ -42,6 +42,7 @@ describe('users', () => {
         .expect('Content-Type', /json/)
         .expect(200);
 
+      console.log(response.body);
       expect(response.body.email).toBe(user.email);
     });
 
@@ -52,6 +53,5 @@ describe('users', () => {
         .expect('Content-Type', /json/)
         .expect(404);
     });
-
   });
 })

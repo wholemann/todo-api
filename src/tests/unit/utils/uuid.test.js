@@ -3,7 +3,7 @@ import { uuid } from '../../../utils/uuid';
 import models from '../../../models';
 
 afterAll(async () => {
-  await models.User.destroy({ truncate: true });
+  // await models.User.destroy({ truncate: true });
   await models.sequelize.close();
 });
 

@@ -1,13 +1,71 @@
 import models from '../models';
+import UserCache from '../caches/user.cache';
+import UserWrapper from '../wrappers/user.wrapper';
 
-export default {
-  // CREATE
-  store: async (data) => await models.User.create(data),
+class UserRepository {
+  constructor() {
+    this.userCache = new UserCache();
+  }
 
-  // READ
-  findById: async (id) => await models.User.findByPk(id),
+  async store(data) {
+    const user = await models.User.create(data);
+    await this.userCache.store(user);
+    return UserWrapper.create(user);
+  }
 
-  findOne: async (uuid) =>  await models.User.findOne({ where: { uuid: Buffer.from(uuid, 'hex') } }),
+  async findAll() {
+    const users = await models.User.findAll();
+    return users.map(user => UserWrapper.create(user));
+  }
 
-  findAll: async () => await models.User.findAll(),
+  async findOne(uuid) {
+    const user = 
+    await this.userCache.find(uuid) || await models.User.findOne({
+      where: {
+        uuid: Buffer.from(uuid, 'hex'),
+      }
+    });
+
+    return UserWrapper.create(user);
+  }
+
+  async findById(id) {
+    const user = await this.userCache.findById(id);
+
+    if (!user) {
+      user = await models.User.findByPk(id);
+    }
+
+    return UserWrapper.create(user);
+  }
+
+  async findByEmail(email) {
+    let user = await this.userCache.findByEmail(email);
+
+    if (!user) {
+      user = await models.User.findOne({
+        where: {
+          email,
+        }
+      });
+    }
+
+    return UserWrapper.create(user);
+  }
 }
+
+export default UserRepository;
+
+// export default {
+//   // CREATE
+//   store: async (data) => await models.User.create(data),
+
+//   // READ
+//   findById: async (id) => await models.User.findByPk(id),
+  
+//   findByEmail: async (email) => await models.User.findOne({ where: { email, } }), 
+
+//   findOne: async (uuid) =>  await models.User.findOne({ where: { uuid: Buffer.from(uuid, 'hex') } }),
+
+//   findAll: async () => await models.User.findAll(),
+// }

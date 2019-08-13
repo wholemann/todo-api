@@ -1,29 +1,24 @@
 import httpStatus from 'http-status';
 import createError from 'http-errors';
-import userRepo from '../../repositories/user.repository';
+import UserRepo from '../../repositories/user.repository';
+
+import _ from 'lodash';
 
   const get = async (req, res, next) => {
   try {
+    const userRepo = new UserRepo();
     if(req.params.uuid) {
       const user = await userRepo.findOne(req.params.uuid);
 
       if (!user) {
-        throw (createError(httpStatus.NOT_FOUND, '사용자를 찾을 수 없습니다.'));
+        throw (createError(httpStatus.NOT_FOUND, 'Invalid email or password'));
       }
-
-      delete user.dataValues.id;
-      res.json(user);
-
-      // return res
-      //   .status(httpStatus.OK)
-      //   .json(user.toWeb());
+      res.json(_.pick(user, ['uuid', 'email', 'createdAt', 'updatedAt']));
     } else {
       const users = await userRepo.findAll();
 
       return res
-        .json(users);
-      // return res
-      //   .json(users.map(user => user.toWeb()));
+        .json(users.map(user => _.pick(user, ['uuid', 'email', 'createdAt', 'updatedAt'])));
     }
   } catch (e) {
     next(e);

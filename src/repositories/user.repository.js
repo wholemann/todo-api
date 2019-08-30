@@ -8,6 +8,13 @@ class UserRepository {
   }
 
   async store(data) {
+    // try {
+    //   const user = await models.User.create(data);
+    //   await this.userCache.store(user);
+    //   return UserWrapper.create(user);
+    // } catch (e) {
+    //   throw new Error(e);
+    // }
     const user = await models.User.create(data);
     await this.userCache.store(user);
     return UserWrapper.create(user);
@@ -19,11 +26,10 @@ class UserRepository {
   }
 
   async findOne(uuid) {
-    const user = 
-    await this.userCache.find(uuid) || await models.User.findOne({
+    const user = await this.userCache.find(uuid) || await models.User.findOne({
       where: {
         uuid: Buffer.from(uuid, 'hex'),
-      }
+      },
     });
 
     return UserWrapper.create(user);
@@ -46,7 +52,7 @@ class UserRepository {
       user = await models.User.findOne({
         where: {
           email,
-        }
+        },
       });
     }
 
@@ -55,17 +61,3 @@ class UserRepository {
 }
 
 export default UserRepository;
-
-// export default {
-//   // CREATE
-//   store: async (data) => await models.User.create(data),
-
-//   // READ
-//   findById: async (id) => await models.User.findByPk(id),
-  
-//   findByEmail: async (email) => await models.User.findOne({ where: { email, } }), 
-
-//   findOne: async (uuid) =>  await models.User.findOne({ where: { uuid: Buffer.from(uuid, 'hex') } }),
-
-//   findAll: async () => await models.User.findAll(),
-// }

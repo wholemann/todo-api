@@ -1,13 +1,13 @@
 import httpStatus from 'http-status';
 import createError from 'http-errors';
-import UserRepo from '../../repositories/user.repository';
-
 import _ from 'lodash';
+import UserRepo from '../repositories/user.repository';
 
-  const get = async (req, res, next) => {
+
+const get = async (req, res, next) => {
   try {
     const userRepo = new UserRepo();
-    if(req.params.uuid) {
+    if (req.params.uuid) {
       const user = await userRepo.findOne(req.params.uuid);
 
       if (!user) {

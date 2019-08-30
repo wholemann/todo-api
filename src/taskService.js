@@ -21,9 +21,10 @@ const addTask = (title) => {
   const id = generateId();
   store.put('tasks', [
     ...tasks,
-    { id, 
-      title, 
-      status: 'TODO' 
+    {
+      id,
+      title,
+      status: 'TODO',
     },
   ]);
   return store.get('tasks');
@@ -41,7 +42,7 @@ const updateTask = (id, obj) => {
   tasks[index] = task;
 
   store.put('tasks', tasks);
-}
+};
 
 const removeTask = (id) => {
   const tasks = getTasks();
@@ -49,7 +50,7 @@ const removeTask = (id) => {
   tasks.splice(index, 1);
 
   store.put('tasks', tasks);
-}
+};
 
 const clearTasks = async () => {
   store.put('tasks', []);

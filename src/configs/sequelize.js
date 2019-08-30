@@ -13,13 +13,13 @@ const baseDbSetting = {
   pool: {
     max: 100,
     min: 0,
-    idle: 10000
+    idle: 10000,
   },
   define: {
     charset: 'utf8mb4',
     collate: 'utf8mb4_unicode_ci',
-    timestamps: true
-  }
+    timestamps: true,
+  },
 };
 
 module.exports = {
@@ -35,6 +35,6 @@ module.exports = {
 
   test: Object.assign({
     database: process.env.DB_TEST,
-    logging: false
+    logging: false,
   }, baseDbSetting),
 };

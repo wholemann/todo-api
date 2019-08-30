@@ -15,8 +15,8 @@ test('Generate ordered UUID', () => {
 
 test('If you create user then create a valid uuid', async () => {
   const user = await models.User.create({
-    email: `${randomString()}@test.com`, 
-    password: randomString(), 
+    email: `${randomString()}@test.com`,
+    password: randomString(),
   });
 
   expect(user.uuid).toMatch(/\b4[0-9A-Fa-f]{31}\b/g);

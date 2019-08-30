@@ -1,4 +1,4 @@
-'use strict';
+
 
 module.exports = {
   up(queryInterface, Sequelize) {
@@ -6,8 +6,8 @@ module.exports = {
       'users',
       'uuid', {
         allowNull: false,
-        unique: true, 
-        type: 'BINARY(16)', 
+        unique: true,
+        type: 'BINARY(16)',
         after: 'id',
       },
     );
@@ -15,8 +15,8 @@ module.exports = {
 
   down(queryInterface, Sequelize) {
     return queryInterface.removeColumn(
-      'users', 
-      'uuid', 
+      'users',
+      'uuid',
     );
   },
 };

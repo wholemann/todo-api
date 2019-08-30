@@ -1,35 +1,41 @@
-require('dotenv').config();
-
 import createError from 'http-errors';
 import express from 'express';
 import cors from 'cors';
-import v1Route from './routes/v1';
-import response from './utils/response'
-import jwtMiddleware from './middleware/jwt.middleware';
 import moment from 'moment';
 import morgan from 'morgan';
+import v1Route from './routes';
+import response from './utils/response';
+import jwtMiddleware from './middleware/jwt.middleware';
 import { stream, logger } from './configs/winston';
 
+require('dotenv').config();
+
 if (process.env.NODE_ENV === 'production') {
-  const sentry = require('@sentry/node')
+  const sentry = require('@sentry/node');
   Sentry.init({ dsn: process.env.SENTRY_DSN });
-  
+
   app.use(Sentry.Handlers.errorHandler());
 }
 
-
-const { getTasks, addTask, updateTask, removeTask } = require('./taskService');
+const {
+  getTasks, addTask, updateTask, removeTask,
+} = require('./taskService');
 
 const port = 3000;
 
 const app = express();
+
+process.on('unhandledRejection', (ex) => {
+  console.log(ex);
+  throw ex;
+});
 
 app.use(morgan('combined', { stream }));
 app.use(express.json());
 app.use(cors());
 
 app.use(jwtMiddleware);
-app.use('/v1', v1Route);
+app.use(v1Route);
 
 
 // catch 404 and forward to error handler
@@ -47,17 +53,17 @@ app.use((err, req, res, next) => {
   if (process.env.NODE_ENV === 'test') {
     const errObj = {
       req: {
-        headers: req.headers, 
-        query: req.query, 
-        body: req.body, 
-        route: req.route, 
-      }, 
+        headers: req.headers,
+        query: req.query,
+        body: req.body,
+        route: req.route,
+      },
       error: {
-        message: apiError.message, 
-        stack: apiError.stack, 
-        status: apiError.status, 
-      }, 
-      user: req.user, 
+        message: apiError.message,
+        stack: apiError.stack,
+        status: apiError.status,
+      },
+      user: req.user,
     };
 
     logger.error(`${moment().format('YYYY-MM-DD HH:mm:ss')}`, errObj);

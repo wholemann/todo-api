@@ -15,23 +15,24 @@ export default async (req, res, next) => {
         process.env.JWT_SECRET,
         (err, payload) => {
           if (err) {
-            return next(createError(httpStatus.UNAUTHORIZED, 'Access denied. No token provided.'))
+            return next(createError(httpStatus.UNAUTHORIZED, 'Access denied. No token provided.'));
           }
 
           uuid = payload.uuid;
-        });
-      
+        },
+      );
+
       const userRepo = new UserRepo();
       const user = await userRepo.findOne(uuid);
 
       if (!user) {
-        return next(createError(404, 'User not found.'))
+        return next(createError(404, 'User not found.'));
       }
-      
+
       req.user = user;
     }
     next();
   } catch (e) {
     next(e);
   }
-}
+};

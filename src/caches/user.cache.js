@@ -67,7 +67,7 @@ export default UserCache;
 // bluebird.promisifyAll(client);
 
 // const store = async (user) => {
-  
+
 // }
 
 // const find = async (uuid) => {

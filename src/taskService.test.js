@@ -1,4 +1,6 @@
-const { getTasks, getTask, addTask, updateTask, removeTask, clearTasks } = require('./taskService');
+const {
+  getTasks, getTask, addTask, updateTask, removeTask, clearTasks,
+} = require('./taskService');
 
 beforeEach(() => {
 });
@@ -21,13 +23,13 @@ test('getTask', () => {
   const tasks = getTasks();
   const { id } = tasks[0];
 
-  expect(getTask(id)).toEqual({id, title: 'test1', status: 'TODO'});
+  expect(getTask(id)).toEqual({ id, title: 'test1', status: 'TODO' });
 });
 
 test('addTask', () => {
   addTask('test1');
   addTask('test2');
-  
+
   const tasks = getTasks();
 
   expect(tasks.length).toBe(2);
@@ -42,14 +44,14 @@ test('updateTask', () => {
   const { id } = tasks[0];
 
   updateTask(id, { title: 'updated' });
-  
+
   expect(getTask(id).title).toBe('updated');
-  
+
   updateTask(id, { status: 'DONE' });
   expect(getTask(id).status).toBe('DONE');
-  
+
   updateTask(id, { title: 'updated', status: 'DONE' });
-  expect(getTask(id)).toEqual({id, title: 'updated', status: 'DONE' });
+  expect(getTask(id)).toEqual({ id, title: 'updated', status: 'DONE' });
 });
 
 test('removeTask', () => {
@@ -62,7 +64,6 @@ test('removeTask', () => {
   removeTask(id);
 
   expect(getTask(id)).toBeUndefined();
-
 });
 
 test('clearTask', () => {
@@ -73,5 +74,4 @@ test('clearTask', () => {
   const tasks = getTasks();
 
   expect(tasks.length).toBe(0);
-})
-
+});

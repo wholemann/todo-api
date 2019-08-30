@@ -2,8 +2,8 @@ import httpStatus from 'http-status';
 
 export default (res, data = {}, code = httpStatus.OK) => {
   const result = {
-    success: true
-  }
+    success: true,
+  };
 
   if (code > 399) {
     result.success = false;

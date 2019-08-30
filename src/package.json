@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js --exec babel-node --presets @babel/preset-env",
-    "test": "NODE_ENV=test npm run migrate:reset && NODE_ENV=test npm run migrate && NODE_ENV=test jest tests --detectOpenHandles --forceExit --coverage",
+    "test": "NODE_ENV=test npm run migrate:reset && NODE_ENV=test npm run migrate && NODE_ENV=test jest tests --detectOpenHandles --forceExit --coverage --verbose",
     "migrate": "sequelize db:migrate",
     "migrate:reset": "sequelize db:migrate:undo:all",
     "lint": "eslint --fix ."
@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
+    "@hapi/joi": "^15.1.1",
     "@sentry/node": "^5.6.1",
     "@types/jest": "^24.0.16",
     "bcrypt": "^3.0.6",
@@ -46,6 +47,7 @@
     "babel-jest": "^24.8.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-import": "^2.18.2",
     "jest": "^24.8.0",
     "random-string": "^0.2.0",

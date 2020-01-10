@@ -8,13 +8,6 @@ class UserRepository {
   }
 
   async store(data) {
-    // try {
-    //   const user = await models.User.create(data);
-    //   await this.userCache.store(user);
-    //   return UserWrapper.create(user);
-    // } catch (e) {
-    //   throw new Error(e);
-    // }
     const user = await models.User.create(data);
     await this.userCache.store(user);
     return UserWrapper.create(user);

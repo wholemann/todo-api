@@ -23,10 +23,6 @@ const logger = winston.createLogger({
   transports: [infoTransport, errorTransport],
 });
 
-// if(process.env.NODE_ENV !== 'production') {
-//   logger.add(new winston.transports.Console({ colorize: true, prettyPrint: true }));
-// }
-
 const stream = {
   write: (message) => {
     logger.info(message);

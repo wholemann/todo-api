@@ -34,7 +34,7 @@
     "node-storage": "0.0.8",
     "nodemon": "^1.19.1",
     "redis": "^2.8.0",
-    "sequelize": "^5.12.1",
+    "sequelize": "^6.28.2",
     "uuid4": "^1.1.4",
     "winston": "^3.2.1"
   },
